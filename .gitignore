@@ -101,6 +101,10 @@ fabric.properties
 .idea/**/markdown-navigator/
 .idea
 
+.bloop
+.vscode
+.metals
+
 # Cache file creation bug
 # See https://youtrack.jetbrains.com/issue/JBR-2257
 .idea/$CACHE_FILE$
@@ -145,6 +149,9 @@ src_managed/
 project/boot/
 project/plugins/project/
 project/target
+project/project
+project/.bloop
+project/metals.sbt
 .history
 .cache
 .lib/
