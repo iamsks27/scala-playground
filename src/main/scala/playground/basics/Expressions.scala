@@ -33,6 +33,12 @@ object Expressions {
       if (y > 2) "hello" else "goodBye"
     }
 
-    println(aCodeBlock)
+    val someValue = {
+      if (42 > 21) 45 else 32
+
+
+      42
+    }
+    println(someValue)
   }
 }
