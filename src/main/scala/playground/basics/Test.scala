@@ -36,8 +36,12 @@ def loop(i: Int = 0): Unit = {
 // 5 - Functions as values
 
 def concatenateN(n: Int, s: String): String =
-  if (n <= 0) s
-  else s + concatenateN(n - 1, s)
+  @tailrec
+  def helper(n: Int, s: String, acc: String): String =
+    if (n <= 0) acc
+    else helper(n - 1, s, s + acc)
+
+  helper(n - 1, s, s)
 
 // Defining a interface
 trait Human {
@@ -61,16 +65,62 @@ val johnSays = john match {
 // Defining a function as values
 val aFunction = (x: Int) => x + 1
 
+// SAM = Single Abstract Method
+trait Printer {
+  def print(message: String): Unit
+}
+
+// SAM syntax
+val console: Printer = (message: String) => println(message)
+
+// Standard Syntax
+//val console_v2: Printer = new Printer {
+//  override def print(message: String): Unit = println(message)
+//}
+
+def filter(x: String, predicate: Char => Boolean): String = {
+  x.filter(predicate)
+}
+
+def modify(x: String, fun: Char => Char): String = x.map(fun)
+
+// In Scala - Import can be done close to it's usage
+
+import scala.io.Source
+
+// Loan-pattern
+def usingFile(fileName: String, processing: Iterator[String] => Int): Int = {
+  val source = Source.fromResource(fileName)
+  try {
+    processing(source.getLines())
+  } finally {
+    source.close()
+  }
+}
 
 // Defining an entry point for your application
 // You can have multiple entry points & choose among them at run time.
 @main def hello(color: Color): Unit = {
-  println("Hello, Scala")
-  println(foo)
-  println(bar)
+  //  println("Hello, Scala")
+  //  println(foo)
+  //  println(bar)
+  //
+  //  println(s"The color is ${color.toString}")
+  //
+  //  loop()
+  //  println(concatenateN(0, "Hello"))
+  //  println(concatenateN(-1, "Hello"))
+  //  println(concatenateN(5, "Hello"))
+  //
+  //  println(aFunction(5))
+  //  console.print("Hello, I'm learning Scala")
 
-  println(s"The color is ${color.toString}")
+  println(filter("Hello, World", (x: Char) => x.isUpper))
 
-  loop()
-  println(concatenateN(0, "Hello"))
+  val aString = "Hello, World"
+  val modifiedString = modify(aString, (x: Char) => x.toUpper)
+  println(modifiedString)
+
+  val modifiedString_v2 = modify(aString, x => x.toLower)
+  println(modifiedString_v2)
 }
